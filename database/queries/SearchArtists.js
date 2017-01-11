@@ -14,7 +14,7 @@ module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
     .skip(offset)
     .limit(limit);
 
-  return Promise.all([query, Artist.count])
+  return Promise.all([query, Artist.count()])
     .then((results) => {
       return {
         all: results[0],
@@ -38,11 +38,13 @@ const buildQuery = (criteria) => {
       $lte: criteria.age.max
     };
   }
+
   if (criteria.yearsActive) {
     query.yearsActive = {
       $gte: criteria.yearsActive.min,
       $lte: criteria.yearsActive.max
     };
   }
+
   return query;
 };
